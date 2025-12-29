@@ -1,0 +1,31 @@
+[
+  {
+    "id": "1",
+    "startTime": 0,
+    "endTime": 3.5,
+    "englishText": "Hello, welcome to today's listening practice.",
+    "chineseText": "你好，欢迎来到今天的听力练习。"
+  },
+  {
+    "id": "2",
+    "startTime": 3.5,
+    "endTime": 7.2,
+    "englishText": "We will be working on improving your listening skills.",
+    "chineseText": "我们将致力于提高你的听力技能。"
+  },
+  {
+    "id": "3",
+    "startTime": 7.2,
+    "endTime": 11.8,
+    "englishText": "Please listen carefully and try to understand each sentence.",
+    "chineseText": "请仔细听，并尝试理解每个句子。"
+  },
+  {
+    "id": "4",
+    "startTime": 11.8,
+    "endTime": 16.5,
+    "englishText": "You can adjust the playback speed and toggle subtitles as needed.",
+    "chineseText": "你可以根据需要调整播放速度并切换字幕。"
+  }
+]
+
