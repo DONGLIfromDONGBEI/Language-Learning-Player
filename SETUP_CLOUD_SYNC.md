@@ -145,3 +145,5 @@ A: 可以，删除 `.env.local` 文件即可，会回退到本地存储。
 **Q: 如何清除所有云端文件？**
 A: 在 Supabase Dashboard 的 Storage 中删除文件，或在 Database 中清空 `file_pairs` 表。
 
+
+

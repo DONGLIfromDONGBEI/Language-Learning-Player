@@ -18,3 +18,5 @@ export const isCloudSyncEnabled = () => {
   return supabase !== null
 }
 
+
+

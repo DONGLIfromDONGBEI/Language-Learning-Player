@@ -38,3 +38,5 @@ CREATE POLICY "Users can delete their own file pairs"
   ON file_pairs FOR DELETE
   USING (true);
 
+
+

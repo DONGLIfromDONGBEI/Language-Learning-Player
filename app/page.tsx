@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import ListeningPlayer from '@/components/ListeningPlayer'
 import FileUploader from '@/components/FileUploader'
+import MaterialGenerator from '@/components/MaterialGenerator'
 import { JournalEntry } from '@/types'
 
 // 示例数据
@@ -41,6 +42,9 @@ export default function Home() {
   const [journalData, setJournalData] = useState<JournalEntry[]>(sampleData)
   const [audioUrl, setAudioUrl] = useState<string>('')
   const [audioFileName, setAudioFileName] = useState<string>('')
+  
+  // 用于触发 FileUploader 重新加载列表
+  const [refreshTrigger, setRefreshTrigger] = useState(0)
 
   // 清理音频URL（避免内存泄漏）
   useEffect(() => {
@@ -52,7 +56,6 @@ export default function Home() {
   }, [audioUrl])
 
   const handleAudioLoad = (url: string, fileName: string) => {
-    // 清理旧的URL
     if (audioUrl && audioUrl.startsWith('blob:')) {
       URL.revokeObjectURL(audioUrl)
     }
@@ -61,8 +64,18 @@ export default function Home() {
   }
 
   const handleSubtitleLoad = (data: JournalEntry[]) => {
-    // 如果没有字幕数据，使用空数组
     setJournalData(data.length > 0 ? data : [])
+  }
+
+  // 处理 AI 生成的素材
+  const handleMaterialGenerated = (url: string, data: JournalEntry[], fileName: string) => {
+    handleAudioLoad(url, fileName)
+    handleSubtitleLoad(data)
+  }
+
+  // 刷新列表（当 MaterialGenerator 完成保存后调用）
+  const handleRefreshList = () => {
+    setRefreshTrigger(prev => prev + 1)
   }
 
   return (
@@ -70,16 +83,23 @@ export default function Home() {
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-semibold mb-8 text-gray-100">Listening Practice Player</h1>
         
+        {/* 素材生成器 */}
+        <MaterialGenerator 
+          onMaterialGenerated={handleMaterialGenerated} 
+          onSaveComplete={handleRefreshList}
+        />
+
         <FileUploader 
           onAudioLoad={handleAudioLoad}
           onSubtitleLoad={handleSubtitleLoad}
+          refreshTrigger={refreshTrigger}
         />
 
         {audioUrl ? (
           <ListeningPlayer journalData={journalData} audioUrl={audioUrl} />
         ) : (
           <div className="bg-gray-800 rounded-2xl p-8 text-center">
-            <p className="text-gray-400 mb-4">请先上传音频文件以开始播放</p>
+            <p className="text-gray-400 mb-4">请先上传音频文件或使用上方的生成器</p>
             <p className="text-sm text-gray-500">
               支持的格式：MP3, WAV, OGG, M4A 等
             </p>
@@ -89,4 +109,3 @@ export default function Home() {
     </main>
   )
 }
-

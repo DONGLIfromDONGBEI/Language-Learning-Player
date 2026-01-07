@@ -23,6 +23,7 @@ import { isCloudSyncEnabled } from '@/lib/supabase'
 interface FileUploaderProps {
   onAudioLoad: (audioUrl: string, fileName: string) => void
   onSubtitleLoad: (data: JournalEntry[]) => void
+  refreshTrigger?: number // 新增：刷新触发器
 }
 
 interface FilePair {
@@ -33,7 +34,7 @@ interface FilePair {
   uploadedAt?: number
 }
 
-export default function FileUploader({ onAudioLoad, onSubtitleLoad }: FileUploaderProps) {
+export default function FileUploader({ onAudioLoad, onSubtitleLoad, refreshTrigger = 0 }: FileUploaderProps) {
   const [filePairs, setFilePairs] = useState<FilePair[]>([])
   const [storedPairs, setStoredPairs] = useState<StoredFilePair[]>([])
   const [cloudPairs, setCloudPairs] = useState<CloudFilePair[]>([])
@@ -49,10 +50,10 @@ export default function FileUploader({ onAudioLoad, onSubtitleLoad }: FileUpload
     setIsCloudEnabled(isCloudSyncEnabled())
   }, [])
 
-  // 页面加载时从本地和云端读取已保存的文件
+  // 页面加载时或触发器更新时从本地和云端读取已保存的文件
   useEffect(() => {
     loadStoredFiles()
-  }, [])
+  }, [refreshTrigger, isCloudEnabled]) // 监听 refreshTrigger
 
   const loadStoredFiles = async () => {
     try {
