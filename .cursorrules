@@ -85,5 +85,6 @@
   2. 提醒用戶執行 `./deploy.sh` 腳本。
   3. 提醒用戶在 Vercel 後台配置環境變量 (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`)。
 
+## 5. Execution Preferences (執行偏好)
 
-
+- **自動執行**：用戶不會點擊任何確認按鈕。請默認每次都直接執行所有命令與代碼變更 (Always execute directly)。
